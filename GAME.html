@@ -1,0 +1,254 @@
+<!doctype html>
+<html> 
+ <head> 
+  <title></title> 
+  <meta name="viewport" content="width=device-width , initial-scale=1.0"> 
+  <style type="text/css">
+  body{
+   background:rgba(212,80,100,1);
+  }
+  #canvas {
+    border-right:1px solid silver;
+    border-left:1px solid silver;
+    background:rgba(0,0,0,0.8);
+  }
+  button {
+    padding:40px 40px;
+    border:1px solid rgba(0,0,0,0.4);
+    outline:none;
+    background:rgba(200,100,200,1);
+    position:relative;
+  }
+  #retry{
+    padding:10px 30px;
+    background:rgba(255,255,255,0.6);
+    top:-120px;
+    left:97px;
+    display:none;
+  }
+</style> 
+ </head> 
+ <body> 
+  <canvas id="canvas" width="302px" height="300px"></canvas> <button id="retry">RETRY</button> <button style="left:22px" onmousedown="left()" onmouseup="stop()" ontouchstart="left()">LEFT</button><button style="left:42px" onmousedown="right()" onmouseup="stop()" ontouchstart="right()">RIGHT</button> 
+  <script type="text/javascript">
+"use strict";
+      var can = document.getElementById("canvas");
+      var ctx = can.getContext("2d");
+      
+      var racer = new draw(can.width / 2 - 20 / 2, can.height - 35,20,35,"red");
+      var velocity = 0;
+      var score = 0; 
+      var mv = 0;
+      var vm = 0;
+       var num3 = Math.ceil(Math.random() * 100 - 50);
+     var car = [];
+         
+    car[0] = {
+        x : 100,
+        y : -34,
+        w : 20,
+        h : 35,
+        c : "blue"
+     };
+      
+      var cars1 = [];
+      cars1[0] = {
+        x : 150,
+        y : -34,
+        w : 20,
+        h : 35,
+        c : "red"
+      };
+      
+         
+         
+        function draw(x,y,w,h,c){
+          this.x = x;
+          this.y = y;
+          this.w = w;
+          this.h = h;
+          this.c = c;
+          this.update = function(){
+                ctx.fillStyle = this.c;
+                ctx.fillRect(this.x,this.y,this.w,this.h);
+          }
+          this.updatePos = function(){
+               this.x += velocity;
+          }
+          this.collide = function(obj){
+            var left = this.x;
+            var right = this.x + this.w;
+            var top = this.y;
+            var bottom = this.y + this.h;
+            var objleft = obj.x;
+            var objright = obj.x + obj.w;
+            var objtop = obj.y;
+            var objbottom = obj.y + obj.h;
+           var crash = true;
+            if((left > objright) || (right < objleft) || (top > objbottom) || (bottom < objtop)) {crash = false};
+            return crash;
+          }
+        }
+        
+        
+        
+        function game(){
+          ctx.clearRect(0,0,can.width,can.height);
+        
+        score += 0.1;
+        ctx.fillStyle = "silver";
+        ctx.fillRect(0,0,50,can.height);
+        ctx.fillRect(can.width - 50,0,50,can.height);
+        ctx.fillStyle = "red";
+        ctx.font = "20px Monospace";
+        ctx.fillText("Score :" + Math.floor(score),0,20);
+        
+        
+        var linespot = [];   
+        var spot = [
+        [0,0,0,1,0,0,0],
+        [0,0,0,1,0,0,0],
+        [0,0,0,1,0,0,0],
+        [0,0,0,1,0,0,0],
+        [0,0,0,1,0,0,0],
+        [0,0,0,1,0,0,0],
+        ];
+        spot.forEach((row,rowIndex) =>{
+        row.forEach((line,lineIndex) =>{
+        if(line == 1){
+        linespot.push(new draw( 10 + can.width / 2 - 10 / 2 * lineIndex , 55 * rowIndex + (-295 + vm), 10,20,"yellow"));
+        }
+        })
+        })
+        
+        //300
+     
+        for(let i = 0;i<linespot.length;i++){
+        linespot[i].update();
+        }
+        var car1;
+        
+        for(let i = 0;i < car.length;i++){
+           var arr = ["blue","aquamarine","green","silver","violet","gold","orange","pink","olive","teal"];
+           var num = [60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,105,110,115,120,125,130,135,140,145,150,155,160,165,170,175,180,185,190,195,200,205,210,215,220,230,235,240];
+           var num1 = 102;
+           var num2 = 2;
+           if(score >= 200){num2 = 4;num1 = 102;}else if(score >= 400){num1 = 104;num2 = 6;}else if(score >= 600){num1 = 110;num2 = 8}else if(score >= 800){num1 = 116;num2 = 10}
+           car1 = new draw(car[i].x,car[i].y - num3,car[i].w,car[i].h,car[i].c);
+          
+           
+          if(car[i].x <= 50 || car[i].x + car[i].w >= can.width - 50){
+            car[i].x = num[Math.floor(Math.random())];
+          }
+          if(car[i].y == num1){
+           car.push({
+             x :  Math.ceil(Math.random()  * can.width - 20),
+             y : -34,
+             w : 20 ,
+             h : 35,
+             c : arr[Math.ceil(Math.random() * arr.length - 1)]
+           })
+          }
+          
+       if(racer.collide(car1)){
+         var retry = document.getElementById("retry");
+         retry.style.display = "block";
+         retry.addEventListener("click",rtry)
+          ctx.fillStyle = "rgba(0,0,0,0.6)";
+          ctx.fillRect(0,0,can.width,can.height);
+          ctx.fillStyle = "white";
+          ctx.font = "50px Arial";
+          ctx.fillText("Game Over",can.width / 2 - 120, can.height / 2);
+          ctx.font = "10px Monospace";
+          ctx.fillText("Your Score is :"+Math.floor(score),can.width / 2 - 55 , can.height / 2 + 20);
+          return;
+         }
+           car[i].y += num2;
+           
+           
+           car1.update();
+        }
+        
+        for(let i = 0;i < cars1.length;i++){
+        var arr = ["blue","aquamarine","green","silver","violet","gold","orange","pink","olive","teal"];
+        var num = [60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,105,110,115,120,125,130,135,140,145,150,155,160,165,170,175,180,185,190,195,200,205,210,215,220,230,235,240];
+        var num1 = 102;
+        var num2 = 2;
+        if(score >= 200){num2 = 4;num1 = 102;}else if(score >= 400){num1 = 104;num2 = 6;}else if(score >= 600){num1 = 110;num2 = 8}else if(score >= 800){num1 = 116;num2 = 10}
+        var car2 = new draw(cars1[i].x,cars1[i].y,cars1[i].w,cars1[i].h,cars1[i].c);
+        
+        if(car2.collide(car1)){
+          cars1[i].c = car.c;
+        }
+        
+        if(cars1[i].x <= 50 || cars1[i].x + cars1[i].w >= can.width - 50 || car2.collide(car1)){
+          cars1[i].x = num[Math.floor(Math.random())];
+        }
+        if(cars1[i].y == num1){
+        cars1.push({
+        x :  Math.ceil(Math.random()  * can.width - 20),
+        y : -34,
+        w : 20 ,
+        h : 35,
+        c : arr[Math.ceil(Math.random() * arr.length - 1)]
+        })
+        }
+        
+     if(racer.collide(car2)){
+        var retry = document.getElementById("retry");
+        retry.style.display = "block";
+        retry.addEventListener("click",rtry)
+        ctx.fillStyle = "rgba(0,0,0,0.6)";
+        ctx.fillRect(0,0,can.width,can.height);
+        ctx.fillStyle = "white";
+        ctx.font = "50px Arial";
+        ctx.fillText("Game Over",can.width / 2 - 120, can.height / 2);
+        ctx.font = "10px Monospace";
+        ctx.fillText("Your Score is :"+Math.floor(score),can.width / 2 - 55 , can.height / 2 + 20);
+        return;
+        }
+        cars1[i].y += num2;
+        
+        
+        car2.update();
+        }
+        
+        
+        
+        
+        if(racer.x <= 50){
+         racer.x = 50;
+        }else if(racer.x + racer.w  >= can.width - 50){
+         racer.x = can.width - 50  - racer.w;
+        }
+        
+        
+        
+        
+        racer.updatePos();
+        racer.update();
+        
+        requestAnimationFrame(game);
+        }
+        requestAnimationFrame(game);
+        
+        function left(){
+           velocity -= 2;
+     
+        }
+        
+        function right(){
+          velocity += 2;
+        }
+        
+        function stop(){
+         velocity = 0;
+        }
+        
+        function rtry(){
+          location.reload();
+        }
+</script>  
+<audio src="Monkey.mp3 " controls></audio>
+ </body>
+</html>

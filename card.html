@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Samar kant Saxena</title>
+</head>
+<body>
+    
+    <br><br>
+
+    <div class="all-container" id="card">
+
+        <div class="open-close" onclick="toggleTopBackground()">
+            <i class="fa fa-eye" id="eyeIcon"></i>
+        </div>
+
+        <div class="top-background">
+            
+        </div>
+
+        <div class="profile-picture">
+            <img src="logo.png" title="Afreecart" style="width: 100%;height: 100%;">
+        </div>
+
+        <div class="personal">
+            <h3>Samar kant Saxena</h3>
+            <p>CEO & Founder of AFreeCart</p>
+            <span>Join us now</span>
+        </div>
+
+        <div class="follow">
+            <div class="followers">
+                <p>Followers</p>
+                <h3></h3>
+            </div>
+            <div class="following">
+                <p>Following</p>
+                <h3>0</h3>
+            </div>
+        </div>
+
+        <div class="contact">
+            <div class="email" onclick="window.open('afreecartstartup@gmail.com')">
+                <img src="https://img.icons8.com/fluent/35/000000/gmail.png"/>
+            </div>
+            <div class="phone" onclick="window.open" >
+                <img src="https://img.icons8.com/fluent/35/000000/phone-disconnected.png"/>
+            </div>
+            <div class="web" onclick="window.open('https://afreeCart.000webhostapp.com')">
+                <img src="https://img.icons8.com/fluent/35/000000/domain.png"/>
+            </div>
+            <div class="whatsapp" onclick="window.open('https://wa.me/qr/E4CO3Q2U2SACI1')">
+                <img src="https://img.icons8.com/fluent/35/000000/whatsapp.png"/>
+            </div>
+        </div>
+
+        <div class="button">
+            <button onclick="window.open('https://code.dcoder.tech/profile/saxenasamarkant')">Follow</button>
+        </div>
+
+        <br><br>
+
+        <div class="footer">
+            <p>Prince of web developers</p>
+        </div>
+
+    </div>
+
+
+</body>
+</html>
+
+
+<style>
+/* the eye icon at the top right*/
+.open-close{
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 20px;
+    height: 20px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* by default it's hidden click the eye icon to display it*/
+.top-background{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100px;
+    background-image: url('Plz.png');
+    background-position: center;
+    background-size: cover;
+    z-index: -1;
+}
+
+    
+    
+.button{
+    margin: 15px 0px;
+}
+
+.button button{
+    width: 80%;
+    height: 32px;
+    color: #242422;
+    border-radius: 24px;
+    background-color: #faca51;
+    border: 2px solid rgb(255, 183, 0);
+}
+
+    
+    
+/* the one that says "prince of web design"*/    
+.footer{
+    font-size: 12px;
+    color: darkslategray;
+    padding: 5px;
+    background: rgb(141, 141, 141);
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 100%;
+    padding: 10px 0px;
+    overflow: hidden;/* to hide the text from showing outside the container*/
+    transform: translateX(-50%);
+    animation: footer 2s;
+    transition: 2s;
+    animation-fill-mode: forwards;
+    animation-delay: 1.5s;
+}
+
+@keyframes footer {
+    0%{
+        width: 20px;
+        height: 20px;
+        bottom: 0px;
+        color: transparent;
+        border-radius: 50%;
+        background: orange;
+    }
+    50%{
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        bottom: 40px;
+        color: transparent;
+        background: orangered;
+    }
+    100%{
+        width: 100%;
+        background: rgb(212, 212, 212);
+        bottom: 0;
+    }
+}
+
+    
+    
+.follow{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 10px 0px;
+}
+.following p,.followers p{
+    color: rgb(51, 51, 51);
+    font-size: 14px;
+    padding-bottom: 3px;
+}
+.following h3, .followers h3{
+    color: teal;
+    transition: 5s;
+    font-size: 20px;
+}
+
+
+    
+/* the counter for my followers*/    
+.followers h3::after {
+  font: 600 20px 'Roboto',sans-serif;
+  content: counter(count);
+  animation: counter 4s;
+  animation-delay: 3s;
+  counter-reset: count 0;
+  animation-fill-mode: forwards;
+}
+
+@keyframes counter {
+  0% {
+    counter-increment: count 0;
+  }
+  10% {
+    counter-increment: count 1;
+  }
+  20% {
+    counter-increment: count 2;
+  }
+  30% {
+    counter-increment: count 3;
+  }
+  40% {
+    counter-increment: count 19;
+  }
+  50% {
+    counter-increment: count 179;
+  }
+  60% {
+    counter-increment: count 280;
+  }
+  70% {
+    counter-increment: count 284;
+  }
+  80% {
+    counter-increment: count 285;
+  }
+  90% {
+    counter-increment: count 286;
+  }
+  100% {
+    counter-increment: count 287;
+  }
+}
+
+
+
+
+.contact{
+    justify-content: space-around;
+    display: flex;
+    align-items: center;
+    margin: 10px 0px;
+    animation: showmore 2s;
+    transition: 2s;
+    animation-fill-mode: forwards;
+    animation-delay: 3s;
+}
+
+@keyframes showmore{
+    0%{
+        width: 15%;
+        overflow: hidden;
+    }
+    100%{
+        width: 100%;
+        justify-content: space-around;
+    }
+}
+
+.email,.phone,.whatsapp,.web{
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.61);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+}
+
+    
+    
+    
+.profile-picture{
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.personal{
+    padding: 10px 0px;
+    animation: personal 2s;
+    transition: 0.3s;
+    animation-delay: 1s;
+}
+
+@keyframes personal {
+    0%{
+        transform: scale(0,0);
+        opacity: 0.1;
+    }
+    100%{
+        transform: scale();
+        opacity: 1;
+    }
+}
+
+.personal h3{
+    color: teal;
+    font-size: 18px;
+}
+
+.personal p{
+    font-size: 14px;
+    color: rgb(73, 73, 73);
+}
+.personal span{
+    font-size: 11px;
+    color: dimgray;
+}
+
+    
+    
+    
+/* the whole card container*/    
+.all-container{
+    text-align: center;
+    width: 280px;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.76);
+    border-radius: 3px;
+    padding: 15px;
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+    transition: 2s;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+}
+
+</style>
+
+<script>
+
+function toggleTopBackground(){
+    card.style.background = "rgba(255, 255, 255, 0)";
+    eyeIcon.style.color = "white";
+}
+
+</script>
