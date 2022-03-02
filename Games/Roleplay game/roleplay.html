@@ -1,0 +1,279 @@
+<!-- created By 
+                Samar kant saxena-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cake Game</title>
+    
+   <script>
+           
+//Created by Samar kant saxena//
+
+
+alert("You want to be the world's first person who become millionire by selling 🍰 \n\nBut you can't do that alone. Hire other people and they'll help you make 🍰 \n\nSell the 🍰 to earn 💵\n\nYou'll win the game once you have 1000000 💵")
+
+alert("👵 costs 100 💵 and gives you 1 🍰 per second \n\n👦 costs 800 💵 and gives you 10 🍰 per second \n\n👨‍🍳 costs 1500 💵 and gives you 20 🍰 per second \n\n🤖 costs 3600 💵 and gives you 60 🍰 per second \n\nAlso you can conduct research 🔬 to double the production of 🍰")
+
+var cakeNo = 10
+var cashNo = 200
+var cpsNo = 0
+var grannyNo = 1
+var workerNo = 0
+var chefNo = 0
+var robotNo = 0
+var res = 1
+var sell1 = 10
+var sell2 = 5000
+
+setInterval(function() {
+  cakes.innerHTML = cakeNo + " 🍰" 
+  cash.innerHTML = cashNo + " 💵" 
+  cps.innerHTML = "🍰/s: " + cpsNo
+  grannyN.innerHTML = "Granny: " + grannyNo 
+  workerN.innerHTML = "Worker: " + workerNo 
+  chefN.innerHTML = "Chef: " + chefNo 
+  robotN.innerHTML = "Robot: " + robotNo 
+  cpsNo = grannyNo + 10 * res * workerNo + 20 * res * chefNo + 50 * res * robotNo
+  a.innerHTML = "Sell " + sell1 + " 🍰"
+  b.innerHTML = "Sell " + sell2 + " 🍰"
+  
+  if (cpsNo >= 1000) {
+      cpsNo = cpsNo / 1000 + "K"
+  }
+  
+  if (cashNo >= 1000000) { 
+     cashNo = cashNo / 1000000 + "M"
+     result.innerHTML = "Congratulations 🎉🎊 Now you're a millionare"
+     a.style.display = "none" 
+     b.style.display = "none" 
+     result.style.display = "initial"  
+     granny.disabled = true
+     worker.disabled = true 
+     chef.disabled = true
+     robot.disabled = true
+     research.disabled = true
+     cake.style.visibility = "hidden"
+   }
+   
+  if (cakeNo >= 10000) {
+      sell1 = 100
+      sell2 = 50000
+      a.style.fontSize = "5.5vmin"
+      b.style.fontSize = "5.5vmin"
+  }
+},100)
+
+
+function cakeClick(number) {
+ cakeNo = cakeNo  + number
+ }
+function buyGranny() {
+ if (cashNo >= 100) {
+     cashNo = cashNo - 100
+     grannyNo++
+ }
+ else {
+     alert("You need 100 💵 to hire 👵")
+ }
+}
+
+function buyWorker() {
+ if (cashNo >= 800) {
+     cashNo = cashNo - 800
+     workerNo++
+ }
+ else {
+     alert("You need 800 💵 to hire 👦")
+ }   
+}
+
+function buyChef() {
+ if (cashNo >= 1500) {
+     cashNo = cashNo - 1500
+     chefNo++
+ }
+ else {
+     alert("You need 1500 💵 to hire 👨‍🍳")
+ }   
+}
+
+function buyRobot() {
+ if (cashNo >= 3600) {
+     cashNo = cashNo - 3600
+     robotNo++
+ }
+ else {
+     alert("You need 3600 💵 to buy 🤖")
+ }   
+}
+
+function sell200() {
+if (cakeNo >= sell1) {
+ cakeNo = cakeNo - sell1
+ cashNo = cashNo + 2 * sell1
+ }
+else {
+ alert("You don't have " + sell1 + " 🍰")
+ }
+}
+
+function sell5000() {
+if (cakeNo >= sell2) {
+ cakeNo = cakeNo - sell2
+ cashNo = cashNo + 2 * sell2
+ }
+else {
+ alert("You don't have " + sell2 + " 🍰")
+ }
+}
+
+function r() {
+ if (cashNo >= 50000 && res == 1) {
+  cashNo = cashNo - 50000
+  res++
+  research.innerHTML = "Research ✔"
+  } 
+ else if (res == 2) {
+  alert("You've already conducted research🔬")
+ }
+ else {
+  alert("You need 50000 💵 to conduct research 🔬")
+ } 
+}
+
+setInterval(function() {
+ cakeClick(grannyNo)
+ cakeClick(10 * res * workerNo)
+ cakeClick(20 * res *chefNo)
+ cakeClick(50 * res * robotNo)
+}, 1000)
+
+
+   </script>
+   <style>
+           body {
+    background:#2b58ff;          
+}
+#click {
+    display: none;
+}
+#cake, #cash {
+    font-size: 7vmin;
+    text-align: right;
+    margin-right: 2vmin;
+}
+#cakes{
+        font-size: 7vmin;
+        margin-right:8px;
+        text-align: right;
+}
+#cps{
+        font-size: 7vmin;
+        margin-left:8px;
+        text-align: left;
+
+}
+
+#cake {
+    position: absolute;
+    height: 25vh;
+    width: 43vw;
+    margin-top: 20vmin;
+    margin-left: 52vmin;
+}
+
+button {
+    height: 8vh;
+    width: 43vw;
+    border-radius: 3.5vmin;
+    font-size: 7vmin;
+    margin-top: 3vmin;
+    margin-left: 3vmin;
+}
+
+#granny {
+    margin-top: 17vmin;
+}
+
+#grannyN {
+    margin-top: 2vmin;
+    margin-left: 8vmin;
+    font-size: 5.5vmin;
+}
+
+#workerN {
+    margin-top: 2vmin;
+    margin-left: 8vmin;
+    font-size: 5.5vmin;
+}
+
+#chefN {
+    margin-top: 2vmin;
+    margin-left: 10vmin;
+    font-size: 5.5vmin;
+}
+
+#robotN {
+    margin-top: 2vmin;
+    margin-left: 10vmin;
+    font-size: 5.5vmin;
+}
+
+.btn {
+    font-size: 6vmin;
+    border-radius: 2vmin;
+    height: 10vh;
+    background: #31DE84;
+    margin-top: -2vmin;
+}
+
+#research {
+    position: absolute;
+    font-size: 4.5vmin;
+    height: 7vh;
+    width: 35vw;
+    border-radius: 1.5vmin;
+    margin-top: -27vmin;
+    margin-left: 55vmin;
+}
+
+#result {
+    position: absolute;
+    font-size: 8vmin;
+    color: red;
+    display: none;
+    margin-top: -7vmin;
+}
+
+   </style>
+    </head>
+    <body>
+     <audio id="click" controls>
+        <source src="https://www.dropbox.com/s/dv7qdkz8njdftf0/sound.mp3?raw=1" type="audio/mp3">
+    </audio>
+ <div id="cps"></div><div id="cakes"> </div>  
+      <div id="cash"></div>
+      
+      
+<img id="cake" onclick="cakeClick(1)" src="https://www.dropbox.com/s/qi3v1za0nh0iqj7/Cake.png?raw=1"></img>
+      
+      <button id="granny" onclick="buyGranny()">Hire 👵</button>
+      <div id="grannyN"></div>
+            
+      <button id="worker" onclick="buyWorker()">Hire 👦</button>
+      <div id="workerN"></div>
+      
+      <button id="chef" onclick="buyChef()">Hire 👨‍🍳</button>
+      <div id="chefN"></div>
+      
+      <button id="robot" onclick="buyRobot()">Buy 🤖</button>
+      <div id="robotN"></div>
+      
+      <br>
+      <button id="research" onclick="r()">Research 🔬</button>
+      <br>
+      <button id="a" class="btn" onclick="sell200()">Sell 200 🍰</button>
+      <button id="b" class="btn" onclick="sell5000()">Sell 5000 🍰</button>
+      <p id="result"></p>
+    </body>
+</html>
