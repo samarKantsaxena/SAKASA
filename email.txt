@@ -1,0 +1,4 @@
+TXT Name = sakasa
+
+Points to = zoho-verification=zb79033935.zmverify.zoho.in
+
