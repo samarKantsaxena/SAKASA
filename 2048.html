@@ -1,738 +1,825 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
- <head> 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <title>Play 2048 Game Online</title> 
-  <style>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play 2048 Game Online</title>
+    <style>
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500");
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
-html, body {
-  margin: 0;
-  background: #111;
-  min-height: 100%;
-  font-family: 'Montserrat', sans-serif;
-  text-align:center;
-  overflow: hidden;
-}
+        html, body {
+            margin: 0;
+            background: #111;
+            min-height: 100%;
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
 
-#mobilewrap {
-  
-  width: 95%;
-  height: 100%;
-}
-#mobilewrap a {
-  
-  bottom: 5vh;
-  right: 5vh;
-}
-#mobilewrap a .fa-twitter {
-  font-size: 5vh;
-  color: #1DA1F2;
-}
+        #mobilewrap {
 
-#container {
-  position: absolute;
-  width: 50vh;
-  height: 50vh;
-  background: #B0BEC5;
-  margin: auto;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  border-radius: 0 0 5px 5px;
-}
-#container .score {
-  position: absolute;
-  display: table;
-  top: -9vh;
-  width: 22vh;
-  height: 10vh;
-  background: #B0BEC5;
-  border-radius: 5px 0 0 0;
-  text-align: center;
-  padding-top: 0.5vh;
-  box-sizing: border-box;
-}
-#container .score p {
-  display: table-cell;
-  font-size: 3.5vh;
-}
-#container .score p .title {
-  display: block;
-  color: #455A64;
-}
-#container .score p .scorefield {
-  color: white;
-  letter-spacing: 1px;
-  font-weight: 600;
-}
-#container .newgame {
-  position: absolute;
-  top: -9vh;
-  right: 0;
-  width: 29vh;
-  height: 10vh;
-  background: #B0BEC5;
-  border-radius: 0 5px 0 0;
-}
-#container .newgame .button {
-  position: absolute;
-  display: table;
-  width: 24vh;
-  height: 7vh;
-  margin: auto;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #CFD8DC;
-  border-radius: 4px;
-  text-align: center;
-  cursor: pointer;
-  -webkit-transition: box-shadow 0.3s;
-  transition: box-shadow 0.3s;
-}
-#container .newgame .button:hover {
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  -webkit-transition: box-shadow 0.3s;
-  transition: box-shadow 0.3s;
-}
-#container .newgame .button:active {
-  box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.19), inset 0 6px 6px rgba(0, 0, 0, 0.23);
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-}
-#container .newgame .button span {
-  display: table-cell;
-  color: #455A64;
-  font-size: 3vh;
-  vertical-align: middle;
-}
-#container .over {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.7);
-  display: table;
-  text-align: center;
-  border-radius: 4px;
-  visibility: hidden;
-  opacity: 0;
-  -webkit-transition: opacity 0.5s;
-  transition: opacity 0.5s;
-}
-#container .over span {
-  display: table-cell;
-  color: #455A64;
-  font-size: 5vh;
-  vertical-align: middle;
-}
-#container .won {
-  position: absolute;
-  top: 0;
-  left: 50vh;
-  width: 70vh;
-  height: 100%;
-  padding-top: 20vh;
-  opacity: 0;
-  border-radius: 4px;
-  padding-left: 4vh;
-  visibility: hidden;
-  -webkit-transition: padding-top 0.3s, opacity 0.4s;
-  transition: padding-top 0.3s, opacity 0.4s;
-}
-#container .won .winner {
-  display: block;
-  color: rgba(255, 255, 255, 0.25);
-  font-size: 13vh;
-}
-#container .won .bestscore {
-  color: rgba(255, 255, 255, 0.25);
-  font-size: 4vh;
-}
-#container .won .numbest {
-  color: #FF5722;
-  font-size: 4.3vh;
-}
-#container .grid {
-  width: 100%;
-  height: 100%;
-  padding-top: 1vh;
-}
-#container .grid .row {
-  position: relative;
-  width: 100%;
-  height: 10vh;
-  padding-left: 1vh;
-}
-#container .grid .row .base {
-  position: relative;
-  float: left;
-  width: 10vh;
-  height: 10vh;
-  background: #CFD8DC;
-  border-radius: 5px;
-  margin: 1vh;
-  text-align: center;
-}
-#container .tiles {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  padding: 2vh;
-  box-sizing: border-box;
-}
-#container .tiles .tile {
-  position: absolute;
-  width: 10vh;
-  height: 10vh;
-  border-radius: 5px;
-  overflow: hidden;
-  -webkit-transition: box-shadow 0.3s;
-  transition: box-shadow 0.3s;
-}
-#container .tiles .tile:hover {
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  -webkit-transition: box-shadow 0.3s;
-  transition: box-shadow 0.3s;
-}
-#container .tiles .tile .tile_content {
-  display: table;
-  text-align: center;
-  width: 100%;
-  height: 100%;
-  -webkit-transform-origin: center center;
-          transform-origin: center center;
-  -webkit-animation: pop-up 0.3s ease-in forwards;
-          animation: pop-up 0.3s ease-in forwards;
-  padding: 1px;
-}
-#container .tiles .tile .tile_content span {
-  display: table-cell;
-  font-size: 3.5vh;
-  vertical-align: middle;
-  font-family: 'Roboto', sans-serif;
-}
+            width: 95%;
+            height: 100%;
+        }
+        #mobilewrap a {
 
-.tile-2 {
-  background: rgba(255, 255, 255, 0.9);
-}
+            bottom: 5vh;
+            right: 5vh;
+        }
+        #mobilewrap a .fa-twitter {
+            font-size: 5vh;
+            color: #1DA1F2;
+        }
 
-.tile-4 {
-  background: #B3E5FC;
-}
+        #container {
+            position: absolute;
+            width: 50vh;
+            height: 50vh;
+            background: #B0BEC5;
+            margin: auto;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            border-radius: 0 0 5px 5px;
+        }
+        #container .score {
+            position: absolute;
+            display: table;
+            top: -9vh;
+            width: 22vh;
+            height: 10vh;
+            background: #B0BEC5;
+            border-radius: 5px 0 0 0;
+            text-align: center;
+            padding-top: 0.5vh;
+            box-sizing: border-box;
+        }
+        #container .score p {
+            display: table-cell;
+            font-size: 3.5vh;
+        }
+        #container .score p .title {
+            display: block;
+            color: #455A64;
+        }
+        #container .score p .scorefield {
+            color: white;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        #container .newgame {
+            position: absolute;
+            top: -9vh;
+            right: 0;
+            width: 29vh;
+            height: 10vh;
+            background: #B0BEC5;
+            border-radius: 0 5px 0 0;
+        }
+        #container .newgame .button {
+            position: absolute;
+            display: table;
+            width: 24vh;
+            height: 7vh;
+            margin: auto;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #CFD8DC;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            -webkit-transition: box-shadow 0.3s;
+            transition: box-shadow 0.3s;
+        }
+        #container .newgame .button:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            -webkit-transition: box-shadow 0.3s;
+            transition: box-shadow 0.3s;
+        }
+        #container .newgame .button:active {
+            box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.19), inset 0 6px 6px rgba(0, 0, 0, 0.23);
+            -webkit-transition: all 0.3s;
+            transition: all 0.3s;
+        }
+        #container .newgame .button span {
+            display: table-cell;
+            color: #455A64;
+            font-size: 3vh;
+            vertical-align: middle;
+        }
+        #container .over {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            display: table;
+            text-align: center;
+            border-radius: 4px;
+            visibility: hidden;
+            opacity: 0;
+            -webkit-transition: opacity 0.5s;
+            transition: opacity 0.5s;
+        }
+        #container .over span {
+            display: table-cell;
+            color: #455A64;
+            font-size: 5vh;
+            vertical-align: middle;
+        }
+        #container .won {
+            position: absolute;
+            top: 0;
+            left: 50vh;
+            width: 70vh;
+            height: 100%;
+            padding-top: 20vh;
+            opacity: 0;
+            border-radius: 4px;
+            padding-left: 4vh;
+            visibility: hidden;
+            -webkit-transition: padding-top 0.3s, opacity 0.4s;
+            transition: padding-top 0.3s, opacity 0.4s;
+        }
+        #container .won .winner {
+            display: block;
+            color: rgba(255, 255, 255, 0.25);
+            font-size: 13vh;
+        }
+        #container .won .bestscore {
+            color: rgba(255, 255, 255, 0.25);
+            font-size: 4vh;
+        }
+        #container .won .numbest {
+            color: #FF5722;
+            font-size: 4.3vh;
+        }
+        #container .grid {
+            width: 100%;
+            height: 100%;
+            padding-top: 1vh;
+        }
+        #container .grid .row {
+            position: relative;
+            width: 100%;
+            height: 10vh;
+            padding-left: 1vh;
+        }
+        #container .grid .row .base {
+            position: relative;
+            float: left;
+            width: 10vh;
+            height: 10vh;
+            background: #CFD8DC;
+            border-radius: 5px;
+            margin: 1vh;
+            text-align: center;
+        }
+        #container .tiles {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            padding: 2vh;
+            box-sizing: border-box;
+        }
+        #container .tiles .tile {
+            position: absolute;
+            width: 10vh;
+            height: 10vh;
+            border-radius: 5px;
+            overflow: hidden;
+            -webkit-transition: box-shadow 0.3s;
+            transition: box-shadow 0.3s;
+        }
+        #container .tiles .tile:hover {
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+            -webkit-transition: box-shadow 0.3s;
+            transition: box-shadow 0.3s;
+        }
+        #container .tiles .tile .tile_content {
+            display: table;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            -webkit-transform-origin: center center;
+            transform-origin: center center;
+            -webkit-animation: pop-up 0.3s ease-in forwards;
+            animation: pop-up 0.3s ease-in forwards;
+            padding: 1px;
+        }
+        #container .tiles .tile .tile_content span {
+            display: table-cell;
+            font-size: 3.5vh;
+            vertical-align: middle;
+            font-family: 'Roboto', sans-serif;
+        }
 
-.tile-8 {
-  background: #81D4FA;
-}
+        .tile-2 {
+            background: rgba(255, 255, 255, 0.9);
+        }
 
-.tile-16 {
-  background: #4FC3F7;
-  color: white;
-}
+        .tile-4 {
+            background: #B3E5FC;
+        }
 
-.tile-32 {
-  background: #29B6F6;
-  color: white;
-}
+        .tile-8 {
+            background: #81D4FA;
+        }
 
-.tile-64 {
-  background: #03A9F4;
-  color: white;
-}
+        .tile-16 {
+            background: #4FC3F7;
+            color: white;
+        }
 
-.tile-128 {
-  background: #E6EE9C;
-}
+        .tile-32 {
+            background: #29B6F6;
+            color: white;
+        }
 
-.tile-256 {
-  background: #DCE775;
-  box-shadow: 0 0 10px 1px #DCE775;
-}
+        .tile-64 {
+            background: #03A9F4;
+            color: white;
+        }
 
-.tile-512 {
-  background: #D4E157;
-  box-shadow: 0 0 15px 1px #D4E157;
-}
+        .tile-128 {
+            background: #E6EE9C;
+        }
 
-.tile-1024 {
-  background: #FFEB3B;
-}
+        .tile-256 {
+            background: #DCE775;
+            box-shadow: 0 0 10px 1px #DCE775;
+        }
 
-.tile-2048 {
-  background: #FFC107;
-  box-shadow: 0 0 10px 1px #FFC107;
-}
+        .tile-512 {
+            background: #D4E157;
+            box-shadow: 0 0 15px 1px #D4E157;
+        }
 
-.tile-4096 {
-  background: #FF9800;
-  box-shadow: 0 0 15px 1px #FF9800;
-  color: white;
-}
+        .tile-1024 {
+            background: #FFEB3B;
+        }
 
-.tile-8192 {
-  background: #7B1FA2;
-  box-shadow: 0 0 10px 1px #7B1FA2;
-  color: white;
-}
+        .tile-2048 {
+            background: #FFC107;
+            box-shadow: 0 0 10px 1px #FFC107;
+        }
+
+        .tile-4096 {
+            background: #FF9800;
+            box-shadow: 0 0 15px 1px #FF9800;
+            color: white;
+        }
+
+        .tile-8192 {
+            background: #7B1FA2;
+            box-shadow: 0 0 10px 1px #7B1FA2;
+            color: white;
+        }
 
 @-webkit-keyframes pop-up {
-  0% {
-    -webkit-transform: scale(0.4);
-            transform: scale(0.4);
-  }
-  50% {
-    -webkit-transform: scale(1.4);
-            transform: scale(1.4);
-  }
-  100% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-  }
-}
+            0% {
+                -webkit-transform: scale(0.4);
+                transform: scale(0.4);
+            }
+            50% {
+                -webkit-transform: scale(1.4);
+                transform: scale(1.4);
+            }
+            100% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+        }
 
 @keyframes pop-up {
-  0% {
-    -webkit-transform: scale(0.4);
-            transform: scale(0.4);
-  }
-  50% {
-    -webkit-transform: scale(1.4);
-            transform: scale(1.4);
-  }
-  100% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-  }
-}
+            0% {
+                -webkit-transform: scale(0.4);
+                transform: scale(0.4);
+            }
+            50% {
+                -webkit-transform: scale(1.4);
+                transform: scale(1.4);
+            }
+            100% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+        }
 
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  -webkit-animation-name: fadeIn; /* Fade in the background */
-  -webkit-animation-duration: 0.4s;
-  animation-name: fadeIn;
-  animation-duration: 0.4s
-}
+        /* The Modal (background) */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0,0,0);
+            /* Fallback color */
+            background-color: rgba(0,0,0,0.4);
+            /* Black w/ opacity */
+            -webkit-animation-name: fadeIn;
+            /* Fade in the background */
+            -webkit-animation-duration: 0.4s;
+            animation-name: fadeIn;
+            animation-duration: 0.4s
+        }
 
-/* Modal Content */
-.modal-content {
-  position: fixed;
-  bottom: 0;
-  background-color: #fefefe;
-  width: 100%;
-  -webkit-animation-name: slideIn;
-  -webkit-animation-duration: 0.4s;
-  animation-name: slideIn;
-  animation-duration: 0.4s
-}
+        /* Modal Content */
+        .modal-content {
+            position: fixed;
+            bottom: 0;
+            background-color: #fefefe;
+            width: 100%;
+            -webkit-animation-name: slideIn;
+            -webkit-animation-duration: 0.4s;
+            animation-name: slideIn;
+            animation-duration: 0.4s
+        }
 
-/* The Close Button */
-.close {
-  color: white;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
+        /* The Close Button */
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
 
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
-.modal-header {
-  padding: 2px 16px;
-  background-color: #5cb85c;
-  color: white;
-}
+        .modal-header {
+            padding: 2px 16px;
+            background-color: #5cb85c;
+            color: white;
+        }
 
-.modal-body {padding: 2px 16px;}
+        .modal-body {
+            padding: 2px 16px;
+        }
 
-.modal-footer {
-  padding: 2px 16px;
-  background-color: #5cb85c;
-  color: white;
-}
+        .modal-footer {
+            padding: 2px 16px;
+            background-color: #5cb85c;
+            color: white;
+        }
 
-/* Add Animation */
+        /* Add Animation */
 @-webkit-keyframes slideIn {
-  from {bottom: -300px; opacity: 0} 
-  to {bottom: 0; opacity: 1}
-}
+            from {
+                bottom: -300px;
+                opacity: 0
+            }
+            to {
+                bottom: 0;
+                opacity: 1
+            }
+        }
 
 @keyframes slideIn {
-  from {bottom: -300px; opacity: 0}
-  to {bottom: 0; opacity: 1}
-}
+            from {
+                bottom: -300px;
+                opacity: 0
+            }
+            to {
+                bottom: 0;
+                opacity: 1
+            }
+        }
 
 @-webkit-keyframes fadeIn {
-  from {opacity: 0} 
-  to {opacity: 1}
-}
+            from {
+                opacity: 0
+            }
+            to {
+                opacity: 1
+            }
+        }
 
 @keyframes fadeIn {
-  from {opacity: 0} 
-  to {opacity: 1}
-}
-
-.buttonTop {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-}
-
-h1 {
-    color: red;
-    font-family: cursive;
-    font-size: 28px;
-    text-align: ;
-}
-
-</style> 
- </head> 
- <body> 
-  <footer style="position: fixed;bottom: 0;width: 100%;"> <!-- Trigger/Open The Modal --> <button id="myBtn" class="buttonTop">About 2048 Game</button> 
-  </footer> <!-- The Modal --> 
-  <div id="myModal" class="modal"> <!-- Modal content --> 
-   <div class="modal-content"> 
-    <div class="modal-header"> <span class="close">×</span> 
-     <h2>About 2048 Game</h2> 
-    </div> 
-    <div class="modal-body"> 
-     <h3>Leave a comment plz....</h3> 
-    </div> 
-    <div class="modal-footer"> 
-     <h3>Credits : <b><a href="https://afreecart.000webhostapp.com" target="_blank">@Afreecart™</a>, <a href="https://youtube.com/channel/UChPnY9VBHNT13-KgbH4WCCw"></a><a target="_blank">Samar kant saxena </a><a hrAfreecart YouTube</a>(</b> </h3> 
-    </div> 
-   </div> 
-  </div> 
-  <div id="mobilewrap"> 
-   <h1 style="color:#FFFFFF; text-align:center;">Play 2048 Game</h1> 
-   <div id="container"> 
-    <div class="score"> 
-     <p> <span class="title">Score</span><span class="scorefield">0</span></p> 
-    </div> 
-    <div class="newgame"> 
-     <div class="button"> <span>New Game</span> 
-     </div> 
-    </div> 
-    <div class="grid"> 
-     <div class="row"> 
-      <div class="base"></div> 
-      <div class="base"></div> 
-      <div class="base"></div> 
-      <div class="base"></div> 
-     </div> 
-     <div class="row"> 
-      <div class="base"></div> 
-      <div class="base"></div> 
-      <div class="base"></div> 
-      <div class="base"></div> 
-     </div> 
-     <div class="row"> 
-      <div class="base"></div> 
-      <div class="base"></div> 
-      <div class="base"></div> 
-      <div class="base"></div> 
-     </div> 
-     <div class="row"> 
-      <div class="base"></div> 
-      <div class="base"></div> 
-      <div class="base"></div> 
-      <div class="base"></div> 
-     </div> 
-    </div> 
-    <div class="tiles"></div> 
-    <div class="over"> <span>Game Over</span> 
-    </div> 
-    <div class="won"> <span class="winner">You win!</span> <span class="bestscore">BEST SCORE: </span> <span class="numbest"> </span> 
-    </div> 
-   </div> 
-  </div> 
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script> 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script> 
-  <script src="https://use.fontawesome.com/a3bbfa8680.js"></script> 
-  <script>
-
-////// MOBILE GESTURES ////////
-
-var myElement = document.getElementById('mobilewrap');
-var hammertime = new Hammer(myElement);
-hammertime.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
-
-hammertime.on('swipeleft', function(ev) {
-  moveDirection(37);
-});
-
-hammertime.on('swiperight', function(ev) {
-  moveDirection(39);
-});
-
-hammertime.on('swipeup', function(ev) {
-  moveDirection(38);
-});
-
-hammertime.on('swipedown', function(ev) {
-  moveDirection(40);
-});
-
-/* ---------------------------------------------------------------------- */
-
-var matrix = [[0,0,0,0],
-              [0,0,0,0],
-              [0,0,0,0],
-              [0,0,0,0]];
-var component = new Array();
-var best = 0;
-var score = 0;
-
-$(".button").on("click", function(){
-  restoreField();
-  init();
-});
-
-init();
-
-function restoreField(){
-  score = 0;
-  $(".scorefield").text(score);
-  matrix = [[0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0]];
-  component = new Array();
-  $('.tiles').remove();
-  $("#container").append("<div class='tiles'></div>");
-  $(".over").css("visibility", "hidden").css("opacity", "0");
-}
-
-function random(min, max) {
-  return Math.floor((Math.random() * max) + min);
-}
-
-function dueoquattro(){
-  return (((Math.random() * 10) > 5) ? 4 : 2);
-}
-
-function init(){
-  var i = 0;
-  while(i < 2){
-    var x = random(0, 4);
-    var y = random(0, 4);
-    
-    if(matrix[x][y] == 0){
-      i++;
-      matrix[x][y] = dueoquattro();
-      component.push({x: x, y: y});
-      
-      updateTile(12 * x, 12 * y, x, y);
-    }
-  }
-}
-
-function updateTile(trax, tray, x, y){
-    $(".tiles").append("<div class='tile tile-" + matrix[x][y] + " tile-" + x + "-" + y + "' style='transform: translate(" + trax + "vh, " + tray + "vh);'><div class='tile_content'><span>" + matrix[x][y] + "</span></div></div>");
-}
-
-window.addEventListener('keydown',this.direction,false);
-
-function compare(a,b) {
-  if(dx == 1){
-    if (a.x < b.x)
-      return -1;
-    if (a.x > b.x)
-      return 1;
-    return 0;
-  }
-}
-
-function moveDirection(code){
-  var change = 0;
-  switch(code){
-    case 37: 
-      component.sort(function(a, b){if(a.x < b.x){return -1;}if(a.x > b.x){return 1;}return 0;}); 
-      change = move(-1,0);
-      break;
-    case 38:
-      component.sort(function(a, b){if(a.y < b.y){return -1;}if(a.y > b.y){return 1;}return 0;}); 
-      change = move(0,-1);
-      break;
-    case 39:
-      component.sort(function(a, b){if(a.x > b.x){return -1;}if(a.x < b.x){return 1;}return 0;}); 
-      change = move(1,0);
-      break;
-    case 40:
-      component.sort(function(a, b){if(a.y > b.y){return -1;}if(a.y < b.y){return 1;}return 0;}); 
-      change = move(0, 1);
-      break;
-  }
-
-    if(change > 0){
-      addTile();
-    }
-  
-    if(checkDefeat()){
-      $(".over").css("visibility", "visible").css("opacity", "1");
-    }
-
-}
-
-function checkDefeat(){
-  if(component.length == 16){
-    for(var i = 0; i < component.length; i++){
-      for(var x = -1; x <= 1; x++){
-        for(var y = -1; y <= 1; y++){
-          if(x != y && Math.abs(x) != Math.abs(y)){
-            if(isMovePossible(component[i].x, component[i].y, x, y, i)){
-              return false;
+            from {
+                opacity: 0
             }
-          }
+            to {
+                opacity: 1
+            }
         }
-      }
-    }
 
-    return true;
-  }
-}
-
-function won(){
-  $(".won").css("visibility", "visible").css("padding-top", "0px").css("opacity", 1);
-}
-
-function direction(e) {
-  moveDirection(e.keyCode);
-}
-
-function addTile(){
-  var i = 0;
-  while(i < 1){
-    var x = random(0, 4);
-    var y = random(0, 4);
-    
-    if(matrix[x][y] == 0){
-      i++;
-      matrix[x][y] = dueoquattro();
-      component.push({x: x, y: y});
-      
-      updateTile(12 * x, 12 * y, x, y);
-    }
-  }
-}
-
-function move(dx, dy){
-  var change = 0;  
-  for(var i = 0; i < component.length; i++){
-      while(isMovePossible(component[i].x, component[i].y, dx, dy, i)){
-        makeMove(component[i].x, component[i].y, dx, dy, i);
-        change++;
-        if(component[i].x != -1 && component[i].y != -1){
-          component[i].x +=  dx;
-          component[i].y +=  dy;
+        .buttonTop {
+            background-color: #4CAF50;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
         }
-      }
-  }
-  
-  checkTrash();
-  return change;
-}
 
-function makeMove(x, y, dx, dy, i){
-  var newX = x + dx;
-  var newY = y + dy;  
-  var newValue = matrix[x][y] + matrix[newX][newY];
-    
-  if(matrix[newX][newY] == matrix[x][y]){
-    component[i].x = -1;
-    component[i].y = -1;
-    score += newValue;
-    $(".scorefield").text(score);
-    if(score > best){
-      best = score;
-      $(".numbest").text(best);
-    }
-  }
-  
-  matrix[newX][newY] = newValue;
-  matrix[x][y] = 0;
-  
-  updateTile(12 * newX, 12 * newY, newX, newY);
-  $('.tile-' + x + '-' + y + '').remove();
-  
-  if(newValue == 2048){
-    won();
-  }
-}
+        h1 {
+            color: red;
+            font-family: cursive;
+            font-size: 28px;
+            text-align:;
+        }
 
-function checkTrash(){
-  for(var i = 0; i < component.length; i++){
-    if(component[i].x == -1 && component[i].y == -1){
-      component.splice(i, 1);
-    }
-  }
-}
+    </style>
+</head>
+<body>
+    <footer style="position: fixed;bottom: 0;width: 100%;">
+        <!-- Trigger/Open The Modal --> <button id="myBtn" class="buttonTop">About 2048 Game</button>
+    </footer>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">×</span>
+                <h2>About 2048 Game</h2>
+            </div>
+            <div class="modal-body">
+                <h3>Leave a comment plz....</h3>
+            </div>
+            <div class="modal-footer">
+                <h3>Credits : <b><a href="https://afreecart.000webhostapp.com" target="_blank">@Afreecart™</a>, <a href="https://afreecart.000webhostapp.com" target="_blank">Samar kant saxena™</a>,<a href="https://youtube.com/channel/UChPnY9VBHNT13-KgbH4WCCw" target="_blank">Afreecart YouTube</a></b> </h3>
+            </div>
+        </div>
+    </div>
+    <div id="mobilewrap">
+        <h1 style="color:#FFFFFF; text-align:center;">Play 2048 Game</h1>
+        <div id="container">
+            <div class="score">
+                <p>
+                    <span class="title">Score</span><span class="scorefield">0</span>
+                </p>
+            </div>
+            <div class="newgame">
+                <div class="button">
+                    <span>New Game</span>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="row">
+                    <div class="base"></div>
+                    <div class="base"></div>
+                    <div class="base"></div>
+                    <div class="base"></div>
+                </div>
+                <div class="row">
+                    <div class="base"></div>
+                    <div class="base"></div>
+                    <div class="base"></div>
+                    <div class="base"></div>
+                </div>
+                <div class="row">
+                    <div class="base"></div>
+                    <div class="base"></div>
+                    <div class="base"></div>
+                    <div class="base"></div>
+                </div>
+                <div class="row">
+                    <div class="base"></div>
+                    <div class="base"></div>
+                    <div class="base"></div>
+                    <div class="base"></div>
+                </div>
+            </div>
+            <div class="tiles"></div>
+            <div class="over">
+                <span>Game Over</span>
+            </div>
+            <div class="won">
+                <span class="winner">You win!</span> <span class="bestscore">BEST SCORE: </span> <span class="numbest"> </span>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    <script src="https://use.fontawesome.com/a3bbfa8680.js"></script>
+    <script>
 
-function isMovePossible(x, y, dx, dy, i){
-  var newX = x + dx;
-  var newY = y + dy;
-  
-  if(newX < 4 && newX >= 0 && newY < 4 && newY >= 0){
-    if(matrix[newX][newY] == 0){
-      return true;
-    }else if(matrix[newX][newY] == matrix[x][y]){
-      return true;
-    }else{
-      return false;
-    }
-  }else{
-    return false;
-  }
-}
-</script> 
-  <script>
-// Get the modal
-var modal = document.getElementById("myModal");
+        ////// MOBILE GESTURES ////////
 
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+        var myElement = document.getElementById('mobilewrap');
+        var hammertime = new Hammer(myElement);
+        hammertime.get('swipe').set({
+            direction: Hammer.DIRECTION_ALL
+        });
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+        hammertime.on('swipeleft', function(ev) {
+            moveDirection(37);
+        });
 
-// When the user clicks the button, open the modal 
-btn.onclick = function() {
-  modal.style.display = "block";
-}
+        hammertime.on('swiperight', function(ev) {
+            moveDirection(39);
+        });
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
+        hammertime.on('swipeup', function(ev) {
+            moveDirection(38);
+        });
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
-</script> 
-<h1>Teaser for that i am going on FIRE!!</h1>
+        hammertime.on('swipedown', function(ev) {
+            moveDirection(40);
+        });
+
+        /* ---------------------------------------------------------------------- */
+
+        var matrix = [[0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0]];
+        var component = new Array();
+        var best = 0;
+        var score = 0;
+
+        $(".button").on("click", function() {
+            restoreField();
+            init();
+        });
+
+        init();
+
+        function restoreField() {
+            score = 0;
+            $(".scorefield").text(score);
+            matrix = [[0,
+                0,
+                0,
+                0],
+                [0,
+                    0,
+                    0,
+                    0],
+                [0,
+                    0,
+                    0,
+                    0],
+                [0,
+                    0,
+                    0,
+                    0]];
+            component = new Array();
+            $('.tiles').remove();
+            $("#container").append("<div class='tiles'></div>");
+            $(".over").css("visibility", "hidden").css("opacity", "0");
+        }
+
+        function random(min, max) {
+            return Math.floor((Math.random() * max) + min);
+        }
+
+        function dueoquattro() {
+            return (((Math.random() * 10) > 5) ? 4: 2);
+        }
+
+        function init() {
+            var i = 0;
+            while (i < 2) {
+                var x = random(0, 4);
+                var y = random(0, 4);
+
+                if (matrix[x][y] == 0) {
+                    i++;
+                    matrix[x][y] = dueoquattro();
+                    component.push({
+                        x: x, y: y
+                    });
+
+                    updateTile(12 * x, 12 * y, x, y);
+                }
+            }
+        }
+
+        function updateTile(trax, tray, x, y) {
+            $(".tiles").append("<div class='tile tile-" + matrix[x][y] + " tile-" + x + "-" + y + "' style='transform: translate(" + trax + "vh, " + tray + "vh);'><div class='tile_content'><span>" + matrix[x][y] + "</span></div></div>");
+        }
+
+        window.addEventListener('keydown', this.direction, false);
+
+        function compare(a, b) {
+            if (dx == 1) {
+                if (a.x < b.x)
+                    return -1;
+                if (a.x > b.x)
+                    return 1;
+                return 0;
+            }
+        }
+
+        function moveDirection(code) {
+            var change = 0;
+            switch (code) {
+                case 37:
+                    component.sort(function(a, b) {
+                        if (a.x < b.x) {
+                            return -1;
+                        }if (a.x > b.x) {
+                            return 1;
+                        }return 0;
+                    });
+                    change = move(-1,
+                        0);
+                    break;
+                case 38:
+                    component.sort(function(a, b) {
+                        if (a.y < b.y) {
+                            return -1;
+                        }if (a.y > b.y) {
+                            return 1;
+                        }return 0;
+                    });
+                    change = move(0,
+                        -1);
+                    break;
+                case 39:
+                    component.sort(function(a, b) {
+                        if (a.x > b.x) {
+                            return -1;
+                        }if (a.x < b.x) {
+                            return 1;
+                        }return 0;
+                    });
+                    change = move(1,
+                        0);
+                    break;
+                case 40:
+                    component.sort(function(a, b) {
+                        if (a.y > b.y) {
+                            return -1;
+                        }if (a.y < b.y) {
+                            return 1;
+                        }return 0;
+                    });
+                    change = move(0,
+                        1);
+                    break;
+            }
+
+            if (change > 0) {
+                addTile();
+            }
+
+            if (checkDefeat()) {
+                $(".over").css("visibility", "visible").css("opacity", "1");
+            }
+
+        }
+
+        function checkDefeat() {
+            if (component.length == 16) {
+                for (var i = 0; i < component.length; i++) {
+                    for (var x = -1; x <= 1; x++) {
+                        for (var y = -1; y <= 1; y++) {
+                            if (x != y && Math.abs(x) != Math.abs(y)) {
+                                if (isMovePossible(component[i].x, component[i].y, x, y, i)) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        function won() {
+            $(".won").css("visibility", "visible").css("padding-top", "0px").css("opacity", 1);
+        }
+
+        function direction(e) {
+            moveDirection(e.keyCode);
+        }
+
+        function addTile() {
+            var i = 0;
+            while (i < 1) {
+                var x = random(0, 4);
+                var y = random(0, 4);
+
+                if (matrix[x][y] == 0) {
+                    i++;
+                    matrix[x][y] = dueoquattro();
+                    component.push({
+                        x: x, y: y
+                    });
+
+                    updateTile(12 * x, 12 * y, x, y);
+                }
+            }
+        }
+
+        function move(dx, dy) {
+            var change = 0;
+            for (var i = 0; i < component.length; i++) {
+                while (isMovePossible(component[i].x, component[i].y, dx, dy, i)) {
+                    makeMove(component[i].x, component[i].y, dx, dy, i);
+                    change++;
+                    if (component[i].x != -1 && component[i].y != -1) {
+                        component[i].x += dx;
+                        component[i].y += dy;
+                    }
+                }
+            }
+
+            checkTrash();
+            return change;
+        }
+
+        function makeMove(x, y, dx, dy, i) {
+            var newX = x + dx;
+            var newY = y + dy;
+            var newValue = matrix[x][y] + matrix[newX][newY];
+
+            if (matrix[newX][newY] == matrix[x][y]) {
+                component[i].x = -1;
+                component[i].y = -1;
+                score += newValue;
+                $(".scorefield").text(score);
+                if (score > best) {
+                    best = score;
+                    $(".numbest").text(best);
+                }
+            }
+
+            matrix[newX][newY] = newValue;
+            matrix[x][y] = 0;
+
+            updateTile(12 * newX, 12 * newY, newX, newY);
+            $('.tile-' + x + '-' + y + '').remove();
+
+            if (newValue == 2048) {
+                won();
+            }
+        }
+
+        function checkTrash() {
+            for (var i = 0; i < component.length; i++) {
+                if (component[i].x == -1 && component[i].y == -1) {
+                    component.splice(i, 1);
+                }
+            }
+        }
+
+        function isMovePossible(x, y, dx, dy, i) {
+            var newX = x + dx;
+            var newY = y + dy;
+
+            if (newX < 4 && newX >= 0 && newY < 4 && newY >= 0) {
+                if (matrix[newX][newY] == 0) {
+                    return true;
+                } else if (matrix[newX][newY] == matrix[x][y]) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+    </script>
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <h1>Teaser for that i am going on FIRE!!</h1>
 </html>
